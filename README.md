@@ -331,6 +331,8 @@ Now that you understand the resource policy, you can try the following experimen
 
 1. Try to make a request without the required AWS V4 Signatures
 
+    - Use your favourite tool to make a simple HTTP request to the API, without attaching the AWS V4 Signatures
+      - You can use `curl` for this purpose by simply running: `curl -X POST -H "Content-Type: application/json" -d '{"name":"John"}' "<API URL>"`
     - You should receive a response with HTTP code 403 (denied) and a message: `"Missing Authentication Token"`.
     - Notice that no custom compute resources were used to evaluate and reject your request. In this way, the IAM / V4 Signature secured API Gateway is secure against a request flood attack, that could result in large compute costs in case of custom authorizers.
 

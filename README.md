@@ -19,7 +19,6 @@
     - [Usage](#usage)
     - [Explore & Experiment](#explore--experiment)
     - [Cleanup](#cleanup)
-  - [Best practices](#best-practices)
   - [Future content](#future-content)
 
 <!-- /TOC -->
@@ -313,13 +312,38 @@ Choose one of the following deployment options:
 
 ### Explore & Experiment
 
-1. API Gateway Resource Policies
+Log in to the AWS Console and navigate to API Gateway service. Select the API deployed in the previous steps (it should be called IAMProtectedAPI).
+Navigate to the "Resource policy" tab (through the menu on the left).
 
-<!-- TODO -->
+You should see the resource-bound IAM Policy of your API. Please take your time to review and analyze the content of the policy. You can also take a look at the Infrastructure as Code templates to better understand how this policy was created.
 
-1. Use an IAM role restricted to the API
+> IMPORTANT Note: the policy refers to IAM identities (such as roles, users, services). The AWS V4 Signatures sent by the client application (as headers or query parameters) are resolved to the IAM identities whose credentials were used to generate the signatures. Then, the policy is evaluated against the requester's identity.
 
-<!-- TODO -->
+Now that you understand the resource policy, you can try the following experiments:
+
+1. Use the client script ([src/client/cli_client.py](src/client/cli_client.py)) to make requests to the API
+  
+    - The script will ask you for the IAM Role ARN (Amazon Resource Name) to assume. Try a few different identities and see the Resource Policy statements "in action".
+
+    - The resource policy defines a granular API rsource access for `<api_url>/denied` url. An explicit deny statement takes priority above all allow statements for this specific URL. Try using the script to access this API path.
+
+    - Take a look at one of the policy statements that explicitly deny access to "NotPrincipal". In this way, we are able to deny access to all identities, with an exception of our custom client role.
+
+1. Try to make a request without the required AWS V4 Signatures
+
+    - You should receive a response with HTTP code 403 (denied) and a message: `"Missing Authentication Token"`.
+    - Notice that no custom compute resources were used to evaluate and reject your request. In this way, the IAM / V4 Signature secured API Gateway is secure against a request flood attack, that could result in large compute costs in case of custom authorizers.
+
+1. Play around with the setup of the API / IAM Policies
+
+    Feel free to modify the infrastructure setup / IAM Policies (attached to both the API and the client role) and explore the possibilities of AWS IAM Policies.
+
+This example is all about advocating for the often overlooked concept of AWS IAM based security.
+Please feel free to save code snippets (such as the reuseable request signer class ([src/client/utils/request_signer.py](src/client/utils/request_signer.py)) or parts of the infrastructure templates if you find them useful.
+
+> IMPORTANT Ending note:
+ Never use 3rd party modules (often found on Github / online) that offer the AWS V4 request signing functionality. Those modules could potentially leak your credentials if designed (or updated) with malicious intent.
+> The attached [src/client/utils/request_signer.py](src/client/utils/request_signer.py) script demonstrates how you can easily design your own signing functionality that relies ONLY on AWS maintained Boto3 library and standard Python modules.
 
 ---
 
@@ -327,13 +351,36 @@ Choose one of the following deployment options:
 
 1. Destroy AWS Infrastructure
 
-To clean up the AWS infrastrucure,
+    To clean up the AWS infrastrucure, you have to destroy the AWS CloudFormation stack that we have used during the [Infrastructure deployment](#infrastructure-deployment) step.
+
+    To delete all of the resources, simply follow one of the following options:
+
+    - AWS Console
+
+      Open AWS Console -> Navigate to AWS CloudFormation service -> Stacks -> Select your demo stack (with your custom name, or the default IAM-API-Security-Demo-Stack) -> Delete
+
+    - AWS CLI
+
+      Simply run: `aws cloudformation delete-stack --stack-name $STACK_NAME` (replace $STACK_NAME with your stack's name, default: IAM-API-Security-Demo-Stack).
+
+    - AWS CDK (advanced)
+
+      Simply run: `cdk destroy` in the [src/infrastructure/cdk/](src/infrastructure/cdk/) folder.
+
+      > Note: AWS CDK uses regular AWS CloudFormation stacks in the backend, you could just as well use the direct `aws cloudformation delete-stack` command from the previous option
 
 1. Clean up the Python Environment
 
+    If you have used Poetry for Python virtual environment management:
+
+    - Locate your project's virtual environment name - run `poetry env list`. Note down the name of the activated virtual environment (the name should also reference your project's name)
+    - Remove the virtual environment by running `poetry env remove <environment name>`
+
+    For more information, please refer to [Poetry documentation](https://python-poetry.org/docs/managing-environments/).
+
 ---
 
-## Best practices
+<!-- ## Best practices -->
 
 ## Future content
 
@@ -341,5 +388,6 @@ There is so much more to expand on the topic of IAM & AWS V4 Signature security.
 
 - Working with AWS V4 Signatures and websocket APIs
 - Guidance / decision matrix for API security mechanism taking into account different use-cases
+- Add more advanced concepts to the demo API Resource Policy (such as conditionals, tags, variables etc)
 
 ---

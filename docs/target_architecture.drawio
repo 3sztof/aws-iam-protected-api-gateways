@@ -1,0 +1,63 @@
+<mxfile host="65bd71144e">
+    <diagram id="PqBEZ3kT-9vtqBbbz06q" name="Page-1">
+        <mxGraphModel dx="587" dy="633" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" value="&lt;font color=&quot;#666666&quot;&gt;&lt;b&gt;AWS Cloud&lt;/b&gt;&lt;/font&gt;" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc;strokeColor=#FF8000;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;dashed=0;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="210" y="10" width="360" height="340" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;strokeWidth=2;startArrow=classic;startFill=1;strokeColor=#666666;" parent="4" source="2" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" style="edgeStyle=none;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;strokeWidth=2;startArrow=classic;startFill=1;strokeColor=#666666;" parent="4" source="2" target="10" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="40" y="100"/>
+                            <mxPoint x="40" y="240"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="2" value="&lt;b&gt;API Gateway&lt;br&gt;(IAM Secured Endpoint)&lt;/b&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#666666;gradientColor=#945DF2;gradientDirection=north;fillColor=#5A30B5;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" parent="4" vertex="1">
+                    <mxGeometry x="80" y="40" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="&lt;b&gt;API IAM&lt;br&gt;Resource Policy&lt;/b&gt;" style="sketch=0;outlineConnect=0;fillColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.policy;strokeColor=#bf0816;fontColor=#666666;" parent="4" vertex="1">
+                    <mxGeometry x="80" y="200" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;b&gt;AWS Lambda&lt;br&gt;Simple Backend&lt;/b&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#666666;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" parent="4" vertex="1">
+                    <mxGeometry x="240" y="40" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="&lt;font color=&quot;#666666&quot; style=&quot;font-size: 8px;&quot;&gt;Lambda&lt;br&gt;Proxy&lt;br&gt;Integration&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;labelBorderColor=none;" vertex="1" parent="4">
+                    <mxGeometry x="168" y="20" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="&lt;font color=&quot;#666666&quot;&gt;Validate Granular &lt;br&gt;Access Permissions&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;" vertex="1" parent="4">
+                    <mxGeometry x="30" y="165" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="HTTP&lt;br&gt;POST / ANY" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;fontColor=#666666;" vertex="1" parent="4">
+                    <mxGeometry y="50" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;b&gt;IAM User / Role&lt;br&gt;AWS Credendials&lt;/b&gt;" style="sketch=0;outlineConnect=0;fontColor=#666666;gradientColor=none;fillColor=#BF0816;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.role;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="220" width="78" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;startArrow=classic;startFill=1;strokeWidth=2;strokeColor=#666666;" parent="1" source="6" target="5" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="10" y="90"/>
+                            <mxPoint x="10" y="170"/>
+                            <mxPoint x="10" y="242"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;startArrow=classic;startFill=1;strokeColor=#666666;" parent="1" source="6" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="&lt;b&gt;Client&lt;br&gt;(Python Script)&lt;/b&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#666666;gradientColor=#4D72F3;gradientDirection=north;fillColor=#3334B9;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.command_line_interface;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="50" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="&lt;font color=&quot;#666666&quot;&gt;Assume Role&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=8;" vertex="1" parent="1">
+                    <mxGeometry x="10" y="180" width="70" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

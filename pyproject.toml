@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "AWS V4 Signature request signing demo"
+version = "0.1.0"
+description = ""
+authors = ["Krzysztof Wilczynski <krzywil@amazon.com>"]
+license = "APACHE 2.0"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+boto3 = "^1.28.78"
+aws-cdk-lib = "^2.105.0"
+constructs = "^10.3.0"
+mypy-boto3-sts = "^1.28.58"
+
+[tool.poetry.dev-dependencies]
+mypy = "^1.1.1"
+flake8 = "^6.1.0"
+black = "^23.10.1"
+mypy-boto3-sts = "^1.28.58"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pyright]
+reportGeneralTypeIssues = false

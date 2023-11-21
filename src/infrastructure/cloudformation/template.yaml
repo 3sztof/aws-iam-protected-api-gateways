@@ -1,0 +1,252 @@
+Resources:
+  APIUserRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::Join:
+                  - ""
+                  - - "arn:"
+                    - Ref: AWS::Partition
+                    - ":iam::"
+                    - Ref: AWS::AccountId
+                    - :root
+        Version: "2012-10-17"
+  APIUserRoleDefaultPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: execute-api:Invoke
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:"
+                  - Ref: AWS::Partition
+                  - ":execute-api:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - ":"
+                  - Ref: API
+                  - /
+                  - Ref: APIDeploymentStageprod
+                  - /*/*/*
+        Version: "2012-10-17"
+      PolicyName: APIUserRoleDefaultPolicy
+      Roles:
+        - Ref: APIUserRole
+  BackendLambdaServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  BackendLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: af500efec8f99bd5b6a2f0ae7776e2c47a80dcc5a126e88f387d5d3d58d76a00.zip
+      Handler: lambda.handler
+      Role:
+        Fn::GetAtt:
+          - BackendLambdaServiceRole
+          - Arn
+      Runtime: python3.11
+    DependsOn:
+      - BackendLambdaServiceRole
+    Metadata:
+      aws:asset:path: asset.af500efec8f99bd5b6a2f0ae7776e2c47a80dcc5a126e88f387d5d3d58d76a00
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  API:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: IAMProtectedAPI
+      Policy:
+        Statement:
+          - Action: execute-api:Invoke
+            Effect: Deny
+            Principal:
+              AWS: "*"
+            Resource: execute-api:/*/*/denied
+          - Action: execute-api:Invoke
+            Effect: Deny
+            NotPrincipal:
+              AWS:
+                Fn::GetAtt:
+                  - APIUserRole
+                  - Arn
+            Resource: execute-api:/*/*/*
+          - Action: execute-api:Invoke
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::GetAtt:
+                  - APIUserRole
+                  - Arn
+            Resource: execute-api:/*/*/*
+        Version: "2012-10-17"
+  APICloudWatchRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: apigateway.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+  APIAccount:
+    Type: AWS::ApiGateway::Account
+    Properties:
+      CloudWatchRoleArn:
+        Fn::GetAtt:
+          - APICloudWatchRole
+          - Arn
+    DependsOn:
+      - API
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+  APIDeployment:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      Description: Automatically created by the RestApi construct
+      RestApiId:
+        Ref: API
+    DependsOn:
+      - APIproxyANY
+      - APIproxy
+  APIDeploymentStageprod:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      DeploymentId:
+        Ref: APIDeployment
+      RestApiId:
+        Ref: API
+      StageName: prod
+    DependsOn:
+      - APIAccount
+  APIproxy:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - API
+          - RootResourceId
+      PathPart: "{proxy+}"
+      RestApiId:
+        Ref: API
+  APIproxyANYApiPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - BackendLambda
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: API
+            - /
+            - Ref: APIDeploymentStageprod
+            - /*/*
+  APIproxyANYApiPermissionTest:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - BackendLambda
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: API
+            - /test-invoke-stage/*/*
+  APIproxyANY:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: AWS_IAM
+      HttpMethod: ANY
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - BackendLambda
+                  - Arn
+              - /invocations
+      ResourceId:
+        Ref: APIproxy
+      RestApiId:
+        Ref: API
+Outputs:
+  APIEndpoint:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: API
+          - .execute-api.
+          - Ref: AWS::Region
+          - "."
+          - Ref: AWS::URLSuffix
+          - /
+          - Ref: APIDeploymentStageprod
+          - /
+  ClientRoleARN:
+    Description: ARN of the API client IAM Role, use it to invoke the API
+    Value:
+      Fn::GetAtt:
+        - APIUserRole
+        - Arn

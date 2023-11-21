@@ -8,21 +8,18 @@
     - [Primary technologies](#primary-technologies)
     - [Pattern application / use-cases](#pattern-application--use-cases)
   - [API Gateway security mechanisms overview](#api-gateway-security-mechanisms-overview)
-  - [Core benefits and advantages of IAM / V4 Signature API security](#core-benefits-and-advantages-of-iam--v4-signature-api-security)
+  - [Core advantages of IAM / V4 Signature API security](#core-advantages-of-iam--v4-signature-api-security)
   - [Reference solution - demo](#reference-solution---demo)
     - [Prerequisites](#prerequisites)
     - [Limitations](#limitations)
     - [Technology stack](#technology-stack)
     - [Solution architecture](#solution-architecture)
-    - [Automation and scale](#automation-and-scale)
     - [Setup](#setup)
     - [Infrastructure deployment](#infrastructure-deployment)
     - [Usage](#usage)
     - [Explore & Experiment](#explore--experiment)
     - [Cleanup](#cleanup)
   - [Best practices](#best-practices)
-  - [Troubleshooting](#troubleshooting)
-  - [Related resources](#related-resources)
   - [Future content](#future-content)
 
 <!-- /TOC -->
@@ -97,7 +94,7 @@ An API Gateway access can be restricted in multiple ways. For the sake of transp
 
 The choice of authentication method depends on your specific use case, security requirements, and integration needs. V4 Signatures, OAuth 2.0, and custom authorizers offer high levels of security and fine-grained access control, while API keys are suitable for simpler, lower-security scenarios. Cognito User Pools provide a comprehensive user management solution. Your decision should be based on your application's unique security and access control needs.
 
-## Core benefits and advantages of IAM / V4 Signature API security
+## Core advantages of IAM / V4 Signature API security
 
 1. **Authentication and Authorization**: AWS Signature Version 4 (V4) provides a robust authentication mechanism that ensures only authorized users and services can access your API Gateway. IAM roles and policies can be used to define who is allowed to make requests to the API.
 
@@ -174,8 +171,6 @@ The demo does not:
 
     To proceed, open your terminal (recommended [bash](https://www.gnu.org/software/bash/) on unix (Linux / MacOS) systems and [Powershell](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.3) on Windows).
 
-    <br/>
-
     - Configure the AWS credentials in the shell's environment variables (you can also use the [Official AWS Docs](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html))
 
         > **_NOTE:_** The commands below (with `export VAR_NAME=VALUE` syntax) should work on all Linux / MacOS systems, on Windows, you can open Powershell and in an analogous way, set the environment variables using the following syntax: `$Env:VAR_NAME = "VALUE"`
@@ -208,18 +203,12 @@ The demo does not:
 
     It's recommended to create a Python virtual environment for this project in order to be 100% sure that all the dependencies are met and to prevent "polluting" the global Python installation with this project's modules. This can easily be done with Python's Poetry module.
 
-    <br/>
-
     - make sure you have installed Python Poetry module by running: `pip install poetry`
-
-        <br/>
 
         >  **_NOTE:_** on some systems, you might need to run `pip3` instead of `pip` (same for `python3` instead of `python`)
     - to create a Python virtual environment for this project, simply run:
       - `poetry env use 3.11` (3.11 or newer)
       - `poetry shell`
-
-        <br/>
 
         > **_NOTE:_** if the command above didn't work, you can try invoking the module directly - `python -m poetry shell`
 
@@ -338,7 +327,7 @@ Choose one of the following deployment options:
 
 1. Destroy AWS Infrastructure
 
-<!-- TODO -->
+To clean up the AWS infrastrucure,
 
 1. Clean up the Python Environment
 

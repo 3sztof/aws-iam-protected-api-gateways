@@ -32,6 +32,7 @@
 This artifact contains a brief introduction to the concept of API Gateway security with IAM and client-side AWS Signatures Version 4 (AWS V4 Signatures) and a sample solution demonstrating the capabilities of such security architecture.
 
 The demo consists of an API Gateway deployment secured with [AWS Identity and Access Management service (IAM)](https://aws.amazon.com/iam/). In this scenario, every request sent to the API is expected to contain an AWS V4 Signature headers (or query parameters in case of WebSocket APIs). Any requests that lack those signatures are rejected up front and don't incur any API related costs. To demonstrate the signing mechanism, the repository contains a sample client written in Python script that creates a signed request to the deployed API and receives a response from the backend Lambda function.
+Additionally, the artifact explains and demonstrates advanced granular security mechanisms enabled by IAM through API Gateway resource policy.
 
 After reading the following content, the reader will get familiar with:
 

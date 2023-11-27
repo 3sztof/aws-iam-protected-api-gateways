@@ -370,8 +370,16 @@ Feel free to save code snippets (such as the reuseable request signer class ([sr
 
 ## Related resources
 
-- [Authenticating Requests (AWS Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html)
-- [Signing AWS API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
+- [Signing AWS API requests - AWS V4 Signatures](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
+- [AWS Management Console Documentation](https://docs.aws.amazon.com/awsconsolehelpdocs/)
+- [AWS CloudFormation Documentation](https://docs.aws.amazon.com/cloudformation/)
+- [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/v2/guide/home.html)
+- [AWS Lambda Documentation](https://docs.aws.amazon.com/lambda/)
+- [AWS IAM Documentation](https://docs.aws.amazon.com/iam/)
+- [AWS API Gateway Documentation](https://docs.aws.amazon.com/apigateway/)
+- [Python Documentation](https://www.python.org/doc/)
+- [Boto3 Documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+- [Boto3 Type Extensions](https://pypi.org/project/mypy-boto3/)
 
 ## Future content
 

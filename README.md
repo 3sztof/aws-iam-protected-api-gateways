@@ -58,39 +58,16 @@ After reading the following content, the reader will get familiar with:
 
 ## API Gateway security mechanisms overview
 
-An API Gateway access can be restricted in multiple ways. For the sake of transparency - each use case is different and deserves through consideration of which mechanisms suits it best. While this artifact focuses and promotes the IAM / V4 Signature security (as a secure, IAM integrated, cost-efficient, low-config, aws-native way), here is a quick overfiew of other options:
+An API Gateway access can be restricted in multiple ways. For the sake of transparency - each use case is different and deserves thorough consideration of which mechanisms suits it best. While this artifact focuses and promotes the IAM / V4 Signature security (as a secure, IAM integrated, cost-efficient, low-config, aws-native way), here is a quick overview of other options:
 
-1. **AWS API Gateway with IAM and V4 Signatures**:
-   - **Authentication Type**: This method relies on AWS Signature Version 4 for authentication, which involves signing each API request with a unique key (generated based on AWS credentials, timestamp and message content, tamper-proof).
-   - **Security Level**: It provides a high level of security, ensuring the authenticity and integrity of requests. Additionally, its cost-efficient, as there is no need for any custom token computation for rejected requests. The IAM API security provides protection against replay / HTTP flooding attacks.
-   - **Access Control**: IAM policies are used for fine-grained access control, allowing you to specify who can access specific resources and methods with an API. IAM API security is also the key to using advanced authorization with Amazon Cognito user pools.
-   - **Scalability**: Highly scalable and suitable for AWS-hosted APIs.
-   - **Managed Service**: AWS handles the underlying security infrastructure.
-   - **Integration**: Integrates well with other AWS services.
-
-2. **API Key Authentication**:
-   - **Authentication Type**: Uses API keys for authentication, which can be included in the request headers.
-   - **Security Level**: Provides a basic level of security but is not as robust as V4 Signatures.
-   - **Access Control**: Limited access control options; typically used for public or low-security APIs.
-   - **Scalability**: Scalable but can become challenging to manage at a large scale.
-   - **Managed Service**: AWS manages API Gateway API keys.
-   - **Integration**: Simple integration but less flexible compared to IAM.
-
-3. **OAuth 2.0**:
-   - **Authentication Type**: OAuth 2.0 is an industry-standard protocol for authentication and authorization.
-   - **Security Level**: Offers strong security when implemented correctly, supporting features like token validation and refresh.
-   - **Access Control**: Fine-grained access control using scopes and permissions.
-   - **Scalability**: Scalable and suitable for a variety of use cases.
-   - **Managed Service**: AWS provides OAuth 2.0 support via Cognito or custom authorizers.
-   - **Integration**: Integrates with third-party identity providers and services, offering a wide range of options.
-
-4. **Custom Authorizers**:
-   - **Authentication Type**: Allows you to implement custom authentication and authorization logic using AWS Lambda.
-   - **Security Level**: Provides a high level of security if implemented correctly.
-   - **Access Control**: Highly customizable access control and fine-grained authorization.
-   - **Scalability**: Scalable and flexible.
-   - **Managed Service**: Requires you to manage the custom authorizer (AWS Lambda function).
-   - **Integration**: Offers flexibility in integrating with various identity providers and systems.
+|   | **AWS API Gateway with IAM and V4 Signatures** | **API Key Authentication** | **OAuth 2.0** | **Custom Authorizers** |
+| --- | --- | --- | --- | --- |
+| **Authentication Type** | This method relies on AWS Signature Version 4 for authentication, which involves signing each API request with a unique key (generated based on AWS credentials, timestamp and message content, tamper-proof). | Uses API keys for authentication, which can be included in the request headers. | OAuth 2.0 is an industry-standard protocol for authentication and authorization. | Allows you to implement custom authentication and authorization logic using AWS Lambda. |
+| **Security Level** | It provides a high level of security, ensuring the authenticity and integrity of requests. Additionally, its cost-efficient, as there is no need for any custom token computation for rejected requests. The IAM API security provides protection against replay / HTTP flooding attacks.  | Provides a basic level of security but is not as robust as V4 Signatures. | Offers strong security when implemented correctly, supporting features like token validation and refresh. | Provides a high level of security if implemented correctly. |
+| **Access Control** | IAM policies are used for fine-grained access control, allowing you to specify who can access specific resources and methods with an API. IAM API security is also the key to using advanced authorization with Amazon Cognito user pools.  | Limited access control options; typically used for public or low-security APIs. | Fine-grained access control using scopes and permissions. | Highly customizable access control and fine-grained authorization. |
+| **Scalability** | Highly scalable and suitable for AWS-hosted APIs. | Scalable but can become challenging to manage at a large scale. | Scalable and suitable for a variety of use cases. | Scalable and flexible. |
+| **Managed Service** | AWS handles the underlying security infrastructure.  | AWS manages API Gateway API keys. | AWS provides OAuth 2.0 support via Cognito or custom authorizers. | Requires you to manage the custom authorizer (AWS Lambda function). |
+| **Integration** | Integrates well with other AWS services. | Simple integration but less flexible compared to IAM. | Integrates with third-party identity providers and services, offering a wide range of options. | Offers flexibility in integrating with various identity providers and systems. |
 
 The choice of authentication method depends on your specific use case, security requirements, and integration needs. V4 Signatures, OAuth 2.0, and custom authorizers offer high levels of security and fine-grained access control, while API keys are suitable for simpler, lower-security scenarios. Cognito User Pools provide a comprehensive user management solution. Your decision should be based on your application's unique security and access control needs.
 
@@ -144,7 +121,7 @@ The demo aims to:
 
 The demo does not:
 
-- Provide a comprehensive appliation / client code
+- Provide a comprehensive application / client code
   - the backend is just a simple Lambda that returns what it receives (event dump)
   - the demo client script is a crude Python code that demonstrates how to make a signed API request, it's by no means a production quality code
 
@@ -167,13 +144,13 @@ The demo does not:
 
 1. Assume an AWS IAM Role in your shell
 
-    To use the demo's client Python script, we will need to make sure that it can assume an AWS identity (IAM User or Role) by using our credentials.
+    To use the demo's client Python script, you will need to make sure that it can assume an AWS identity (IAM User or Role) by using our credentials.
 
-    To proceed, open your terminal (recommended [bash](https://www.gnu.org/software/bash/) on unix (Linux / MacOS) systems and [Powershell](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.3) on Windows).
+    To proceed, open your terminal (recommended [bash](https://www.gnu.org/software/bash/) on unix (Linux / MacOS) systems and [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.3) on Windows).
 
     - Configure the AWS credentials in the shell's environment variables (you can also use the [Official AWS Docs](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html))
 
-        > **_NOTE:_** The commands below (with `export VAR_NAME=VALUE` syntax) should work on all Linux / MacOS systems, on Windows, you can open Powershell and in an analogous way, set the environment variables using the following syntax: `$Env:VAR_NAME = "VALUE"`
+        > ***NOTE:*** The commands below (`export VAR_NAME=VALUE` syntax) are designed to work on systems running [bash](https://www.gnu.org/software/bash/) (GNU Linux / MacOS). On Windows, you can open PowerShell and in an analogous way, set the environment variables using the following syntax: `$Env:VAR_NAME = "VALUE"`
 
         Run the following commands (replace the `<PLACEHOLDER>` values with your respective AWS identity credentials)
 
@@ -183,7 +160,7 @@ The demo does not:
         export AWS_DEFAULT_REGION=<PLACEHOLDER>
         ```
 
-        > **_NOTE:_** If you are using an AWS Role, instead of the user, you will also need to set `AWS_SESSION_TOKEN` environment variable.
+        > ***NOTE:*** If you are using an AWS Role, instead of the user, you will also need to set `AWS_SESSION_TOKEN` environment variable.
 
     - [alternative way] Guided configuration with AWS CLI
 
@@ -193,33 +170,32 @@ The demo does not:
       aws configure
       ```
 
-    If you are having any problems configuring your terminal session with AWS credentials, please navigate to the official AWS documentation for working in CLI:
+    If you are having any problems configuring your terminal session with AWS credentials, navigate to the official AWS documentation for working in CLI:
     - [IAM users](https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-user.html)
     - [IAM roles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html)
 
 1. Prepare a Python environment
 
-    > **_NOTE:_** Python 3.11 or newer is required to run the provided example CLI script
+    > ***NOTE:*** Python 3.11 or newer is required to run the provided example CLI script
 
     It's recommended to create a Python virtual environment for this project in order to be 100% sure that all the dependencies are met and to prevent "polluting" the global Python installation with this project's modules. This can easily be done with Python's Poetry module.
 
     - make sure you have installed Python Poetry module by running: `pip install poetry`
 
-        >  **_NOTE:_** on some systems, you might need to run `pip3` instead of `pip` (same for `python3` instead of `python`)
+        >  ***NOTE:*** on some systems, you might need to run `pip3` instead of `pip` (same for `python3` instead of `python`)
     - to create a Python virtual environment for this project, simply run:
       - `poetry env use 3.11` (3.11 or newer)
       - `poetry shell`
 
-        > **_NOTE:_** if the command above didn't work, you can try invoking the module directly - `python -m poetry shell`
-
-        > **_NOTE:_** please make sure to use Python 3.11 or newer (you can easily manage Python versions with <https://github.com/pyenv/pyenv>)
+        > ***NOTE:*** if the command above didn't work, you can try invoking the module directly - `python -m poetry shell`
+        > ***NOTE:*** make sure to use Python 3.11 or newer (you can easily manage Python versions with <https://github.com/pyenv/pyenv>)
     - install all required Python packages by running: `poetry install`
   
 ### Infrastructure deployment
 
-To deploy the AWS infrastructure required for the functionality demo, we will use [Infrastructure as Code (IaC)](https://docs.aws.amazon.com/whitepapers/latest/introduction-devops-aws/infrastructure-as-code.html).
+To deploy the AWS infrastructure required for the functionality demo, you will use [Infrastructure as Code (IaC)](https://docs.aws.amazon.com/whitepapers/latest/introduction-devops-aws/infrastructure-as-code.html).
 
-We will deploy:
+The infrastructure consists of:
 
 - an [AWS API Gateway](https://aws.amazon.com/api-gateway/) configured with IAM authorization and a Resource Policy that further granularizes the access permissions
 - an [AWS Lambda](https://aws.amazon.com/lambda/) function to handle API requests (backend)
@@ -234,7 +210,7 @@ Choose one of the following deployment options:
 
 1. CloudFormation Template
 
-    If you have never used AWS CloudFormation, please familiarize yourself with the basic concepts in the [documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html).
+    If you have never used AWS CloudFormation, familiarize yourself with the basic concepts in the [documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html).
 
     The infrastructure template (yaml) can be found in the code repository under [src/infrastructure/cloudformation/template.yaml](src/infrastructure/cloudformation/template.yaml).
 
@@ -253,7 +229,7 @@ Choose one of the following deployment options:
 
     Assuming you have [configured your CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) and installed [AWS CDK CLI](https://www.npmjs.com/package/aws-cdk).
 
-    The CDK deployment requries setting up a Python environment and installing the IaC script's Python dependencies. In the commands below, we will use [Python Poetry](https://python-poetry.org/) module to easily create a virtual environment and install all of the required modules.
+    The CDK deployment requries setting up a Python environment and installing the IaC script's Python dependencies. The commands below use [Python Poetry](https://python-poetry.org/) module to easily create a virtual environment and install all of the required modules.
 
     To deploy the infrastructure, simply run the following commands:
 
@@ -265,7 +241,7 @@ Choose one of the following deployment options:
     cd ../../..
     ```
 
-> **_NOTE:_** The commands should return (among other things) the URL of the provisioned API Gateway endpoint and the client IAM Role's ARN. Note it down, it will be needed when running the demo API client script.
+> ***NOTE:*** The commands should return (among other things) the URL of the provisioned API Gateway endpoint and the client IAM Role's ARN. Note it down, it will be needed when running the demo API client script.
 
 ### Usage
 
@@ -298,7 +274,7 @@ Choose one of the following deployment options:
       export CLIENT_ROLE_ARN="<ARN of the deployed IAM Role>"
       ```
 
-    - Powershell (Windows)
+    - PowerShell (Windows)
 
       ```ps
       New-Variable -Name API_URL -Value "<API Gateway endpoint URL>"
@@ -316,7 +292,7 @@ Choose one of the following deployment options:
 Log in to the AWS Console and navigate to API Gateway service. Select the API deployed in the previous steps (it should be called IAMProtectedAPI).
 Navigate to the "Resource policy" tab (through the menu on the left).
 
-You should see the resource-bound IAM Policy of your API. Please take your time to review and analyze the content of the policy. You can also take a look at the Infrastructure as Code templates to better understand how this policy was created.
+You should see the resource-bound IAM Policy of your API. Take your time to review and analyze the content of the policy. You can also take a look at the Infrastructure as Code templates to better understand how this policy was created.
 
 > IMPORTANT Note: the policy refers to IAM identities (such as roles, users, services). The AWS V4 Signatures sent by the client application (as headers or query parameters) are resolved to the IAM identities whose credentials were used to generate the signatures. Then, the policy is evaluated against the requester's identity.
 
@@ -328,7 +304,7 @@ Now that you understand the resource policy, you can try the following experimen
 
     - The resource policy defines a granular API rsource access for `<api_url>/denied` url. An explicit deny statement takes priority above all allow statements for this specific URL. Try using the script to access this API path.
 
-    - Take a look at one of the policy statements that explicitly deny access to "NotPrincipal". In this way, we are able to deny access to all identities, with an exception of our custom client role.
+    - Take a look at one of the policy statements that explicitly deny access to "NotPrincipal". In this way, you are able to deny access to all identities, with an exception of our custom client role.
 
 1. Try to make a request without the required AWS V4 Signatures
 
@@ -342,7 +318,7 @@ Now that you understand the resource policy, you can try the following experimen
     Feel free to modify the infrastructure setup / IAM Policies (attached to both the API and the client role) and explore the possibilities of AWS IAM Policies.
 
 This example is all about advocating for the often overlooked concept of AWS IAM based security.
-Please feel free to save code snippets (such as the reuseable request signer class ([src/client/utils/request_signer.py](src/client/utils/request_signer.py)) or parts of the infrastructure templates if you find them useful.
+Feel free to save code snippets (such as the reuseable request signer class ([src/client/utils/request_signer.py](src/client/utils/request_signer.py)) or parts of the infrastructure templates if you find them useful.
 
 > IMPORTANT Ending note:
  Never use 3rd party modules (often found on Github / online) that offer the AWS V4 request signing functionality. Those modules could potentially leak your credentials if designed (or updated) with malicious intent.
@@ -354,7 +330,7 @@ Please feel free to save code snippets (such as the reuseable request signer cla
 
 1. Destroy AWS Infrastructure
 
-    To clean up the AWS infrastrucure, you have to destroy the AWS CloudFormation stack that we have used during the [Infrastructure deployment](#infrastructure-deployment) step.
+    To clean up the AWS infrastructure, you have to destroy the AWS CloudFormation stack that was provisioned during the [Infrastructure deployment](#infrastructure-deployment) step.
 
     To delete all of the resources, simply follow one of the following options:
 
@@ -379,11 +355,16 @@ Please feel free to save code snippets (such as the reuseable request signer cla
     - Locate your project's virtual environment name - run `poetry env list`. Note down the name of the activated virtual environment (the name should also reference your project's name)
     - Remove the virtual environment by running `poetry env remove <environment name>`
 
-    For more information, please refer to [Poetry documentation](https://python-poetry.org/docs/managing-environments/).
+    For more information, refer to [Poetry documentation](https://python-poetry.org/docs/managing-environments/).
 
 ---
 
-<!-- ## Best practices -->
+## Best practices
+
+- Never use 3rd party libraries / modules to generate the AWS V4 Signatures. Unauthorized modules pose a credential leak threat. Every AWS SDK (for [supported programming languages](https://aws.amazon.com/developer/tools/)) contains a mechanism to generate the V4 Signatures using only AWS-maintained dependencies. In this artifact, the [/src/client/utils/request_signer.py](/src/client/utils/request_signer.py) serves as an example of how to abstract and access the V4 signing mechanisms of Python Boto3 AWS SDK.
+- The API security is never a one-size-fits-all decision. Although this artifact describes and favours the IAM / AWS V4 Signature mechanism, every use case deserves a thorough consideration of the security mechanism.
+- When working with Python, use virtual environments to separate project dependencies from your global Python installation. You can either do it with Python’s venv module, or through higher level dependency management modules, like [Poetry](https://python-poetry.org/docs/).
+- When working with Python’s Boto3 module, it’s possible to install additional dependencies for type hints ([MyPy-Boto3](https://pypi.org/project/mypy-boto3/)) and type safety checks ([MyPy](https://www.mypy-lang.org/)). Using those modules also enables autocompletion in most major IDEs. Static type checking with MyPy allows the developer to spot many potential runtime exceptions before executing the code.
 
 ## Future content
 

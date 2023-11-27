@@ -19,6 +19,8 @@
     - [Usage](#usage)
     - [Explore & Experiment](#explore--experiment)
     - [Cleanup](#cleanup)
+  - [Best practices](#best-practices)
+  - [Related resources](#related-resources)
   - [Future content](#future-content)
 
 <!-- /TOC -->
@@ -365,6 +367,11 @@ Feel free to save code snippets (such as the reuseable request signer class ([sr
 - The API security is never a one-size-fits-all decision. Although this artifact describes and favours the IAM / AWS V4 Signature mechanism, every use case deserves a thorough consideration of the security mechanism.
 - When working with Python, use virtual environments to separate project dependencies from your global Python installation. You can either do it with Python’s venv module, or through higher level dependency management modules, like [Poetry](https://python-poetry.org/docs/).
 - When working with Python’s Boto3 module, it’s possible to install additional dependencies for type hints ([MyPy-Boto3](https://pypi.org/project/mypy-boto3/)) and type safety checks ([MyPy](https://www.mypy-lang.org/)). Using those modules also enables autocompletion in most major IDEs. Static type checking with MyPy allows the developer to spot many potential runtime exceptions before executing the code.
+
+## Related resources
+
+- [Authenticating Requests (AWS Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html)
+- [Signing AWS API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
 
 ## Future content
 

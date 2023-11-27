@@ -3,25 +3,25 @@
 <!-- TOC -->
 
 - [AWS API Gateway Security with AWS IAM and AWS V4 Signatures](#aws-api-gateway-security-with-aws-iam-and-aws-v4-signatures)
-  - [Summary](#summary)
-    - [Introduction](#introduction)
-    - [Primary technologies](#primary-technologies)
-    - [Pattern application / use-cases](#pattern-application--use-cases)
-  - [API Gateway security mechanisms overview](#api-gateway-security-mechanisms-overview)
-  - [Core advantages of IAM / V4 Signature API security](#core-advantages-of-iam--v4-signature-api-security)
-  - [Reference solution - demo](#reference-solution---demo)
-    - [Prerequisites](#prerequisites)
-    - [Limitations](#limitations)
-    - [Technology stack](#technology-stack)
-    - [Solution architecture](#solution-architecture)
-    - [Setup](#setup)
-    - [Infrastructure deployment](#infrastructure-deployment)
-    - [Usage](#usage)
-    - [Explore & Experiment](#explore--experiment)
-    - [Cleanup](#cleanup)
-  - [Best practices](#best-practices)
-  - [Related resources](#related-resources)
-  - [Future content](#future-content)
+    - [Summary](#summary)
+        - [Introduction](#introduction)
+        - [Primary technologies](#primary-technologies)
+        - [Pattern application / use-cases](#pattern-application--use-cases)
+    - [API Gateway security mechanisms overview](#api-gateway-security-mechanisms-overview)
+    - [Core advantages of IAM / V4 Signature API security](#core-advantages-of-iam--v4-signature-api-security)
+    - [Reference solution - demo](#reference-solution---demo)
+        - [Prerequisites](#prerequisites)
+        - [Limitations](#limitations)
+        - [Technology stack](#technology-stack)
+        - [Solution architecture](#solution-architecture)
+        - [Setup](#setup)
+        - [Infrastructure deployment](#infrastructure-deployment)
+        - [Usage](#usage)
+        - [Explore & Experiment](#explore--experiment)
+        - [Cleanup](#cleanup)
+    - [Best practices](#best-practices)
+    - [Related resources](#related-resources)
+    - [Future content](#future-content)
 
 <!-- /TOC -->
 
@@ -368,6 +368,8 @@ Feel free to save code snippets (such as the reuseable request signer class ([sr
 - When working with Python, use virtual environments to separate project dependencies from your global Python installation. You can either do it with Python’s venv module, or through higher level dependency management modules, like [Poetry](https://python-poetry.org/docs/).
 - When working with Python’s Boto3 module, it’s possible to install additional dependencies for type hints ([MyPy-Boto3](https://pypi.org/project/mypy-boto3/)) and type safety checks ([MyPy](https://www.mypy-lang.org/)). Using those modules also enables autocompletion in most major IDEs. Static type checking with MyPy allows the developer to spot many potential runtime exceptions before executing the code.
 
+---
+
 ## Related resources
 
 - [Signing AWS API requests - AWS V4 Signatures](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
@@ -380,6 +382,8 @@ Feel free to save code snippets (such as the reuseable request signer class ([sr
 - [Python Documentation](https://www.python.org/doc/)
 - [Boto3 Documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
 - [Boto3 Type Extensions](https://pypi.org/project/mypy-boto3/)
+
+---
 
 ## Future content
 
